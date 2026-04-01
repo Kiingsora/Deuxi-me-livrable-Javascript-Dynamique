@@ -1,21 +1,18 @@
 const API_BASE_URL = await fetch("http://localhost:5678/api/works");
 const reponse = await API_BASE_URL.json();
-console.log(reponse);
 
 const projets = document.getElementById("portfolio");
 const gallery = document.querySelector(".gallery");
 
-
-reponse.forEach(objet => { 
+reponse.forEach(objet => {
 
     let projet = document.createElement("figure");
     let imageProjet = document.createElement("img");
     imageProjet.src = objet.imageUrl;
     imageProjet.alt = objet.title;
-    
+
     let figcaptionProjet = document.createElement("figcaption")
     figcaptionProjet.innerText = objet.title;
-    console.log(projet);
 
     gallery.appendChild(projet);
     projet.appendChild(imageProjet);
