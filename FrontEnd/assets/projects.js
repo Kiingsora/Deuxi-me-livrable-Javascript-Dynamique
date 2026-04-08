@@ -1,23 +1,28 @@
 const API_BASE_URL = await fetch("http://localhost:5678/api/works");
-const reponse = await API_BASE_URL.json();
+export const reponseJSON = await API_BASE_URL.json();
 
-const projets = document.getElementById("portfolio");
-const gallery = document.querySelector(".gallery");
+const projects = document.querySelector(".gallery");
 
-reponse.forEach(objet => {
+function elements(reponseApi, gallery) {
+    gallery.innerHTML = "";
 
-    let projet = document.createElement("figure");
-    let imageProjet = document.createElement("img");
-    imageProjet.src = objet.imageUrl;
-    imageProjet.alt = objet.title;
+    reponseApi.forEach(objet => {
 
-    let figcaptionProjet = document.createElement("figcaption")
-    figcaptionProjet.innerText = objet.title;
+        let projet = document.createElement("figure");
+        let imageProjet = document.createElement("img");
+        let figcaptionProjet = document.createElement("figcaption");
 
-    gallery.appendChild(projet);
-    projet.appendChild(imageProjet);
-    projet.appendChild(figcaptionProjet);
-});
+        imageProjet.src = objet.imageUrl;
+        imageProjet.alt = objet.title;
+        figcaptionProjet.innerText = objet.title;
 
-// document.addEventListener('DOMContentLoaded', {
-// })
+        projet.appendChild(imageProjet);
+        projet.appendChild(figcaptionProjet);
+        gallery.appendChild(projet);
+        
+    });
+}
+
+elements(reponseJSON, projects);
+export { elements }
+

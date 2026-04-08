@@ -1,24 +1,32 @@
+import { elements, reponseJSON } from "./projects.js";
+
 const API_BASE_URL = await fetch('http://localhost:5678/api/categories');
-const reponse = await API_BASE_URL.json();
+const reponseButton = await API_BASE_URL.json();
+
+reponseJSON.forEach(projet => {
+    const category = projet.category
+    console.log(category.id);
+});
 
 const categorys = document.getElementById("category");
-let selectedButton = document.querySelector(".selected ");
+let selectedButton = document.querySelector(".selected");
 
-const allButton = document.createElement("button");
-allButton.innerText = "Tous";
-allButton.classList.add("btn-category", "selected"); // Sélectionné par défaut
-categorys.appendChild(allButton);
+const buttonAllElements = document.createElement("button");
+buttonAllElements.innerText = "Tous";
+buttonAllElements.classList.add("btn-category", "selected");
 
-allButton.addEventListener("click", () => {
+categorys.appendChild(buttonAllElements);
+
+// si clic btn tous remove .selected de tout les autresde
+buttonAllElements.addEventListener("click", () => {
     document.querySelectorAll('.btn-category').forEach(btn => {
         btn.classList.remove('selected');
     });
-    
-    allButton.classList.add('selected');
-    console.log("Affichage de tous les projets");
+
+    buttonAllElements.classList.add('selected');
 });
 
-reponse.forEach(objet => {
+reponseButton.forEach(objet => {
     const category = document.createElement("button");
     category.innerText = objet.name;
     category.classList.add("btn-category");
@@ -29,7 +37,6 @@ reponse.forEach(objet => {
         });
 
         category.classList.add('selected');
-        console.log("Catégorie sélectionnée:", category.textContent);
     });
 
     categorys.appendChild(category);
