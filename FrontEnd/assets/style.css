@@ -133,6 +133,7 @@ body {
   margin: auto;
   font-family: "Work Sans";
   font-size: 14px;
+  font-family: "Syne";
 }
 header {
   display: flex;
@@ -177,13 +178,16 @@ nav li {
 li:hover {
   color: #b1663c;
 }
+
 #introduction {
   display: flex;
   align-items: center;
 }
+
 #introduction figure {
   flex: 1;
 }
+
 #introduction img {
   display: block;
   margin: auto;
@@ -200,23 +204,32 @@ li:hover {
 #introduction p {
   margin-bottom: 0.5em;
 }
+
 #portfolio h2 {
   text-align: center;
   margin-bottom: 1em;
 }
 
+#category {
+  display: flex;
+  justify-content: center;
+}
+
 .btn-category {
   border: 1px solid rgb(4, 104, 79);
-  background-color: 1px solid rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+  color:  rgb(4, 104, 79);
+  font-weight: 400;
   border-radius: 50px;
   height: 2.5rem;
-  padding: 0.5rem;
-  font-size: 1.1rem;
+  padding: 0 1rem;
+  font-size: 1rem;
   margin: 0 0.5rem;
 }
 
-.btn-category .selected {
-  background-color: 1px solid rgb(4, 104, 79);
+.selected {
+  background-color: rgb(22, 71, 22);
+  color: aliceblue;
 }
 
 .gallery {
@@ -226,9 +239,11 @@ li:hover {
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }
+
 .gallery img {
   width: 100%;
 }
+
 #contact {
   width: 50%;
   margin: auto;
