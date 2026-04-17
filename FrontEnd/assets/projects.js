@@ -25,7 +25,6 @@ function display(displayWorks) {
 
 display(reponse_PROJECT);
 
-
 const buttonAll = document.createElement("button");
 buttonAll.textContent = "Tous";
 buttonAll.classList.add("btn-category", "selected");
@@ -34,7 +33,6 @@ buttonAll.addEventListener("click", () => {
         btn.classList.remove('selected');
     });
     buttonAll.classList.add('selected');
-    display(reponse_PROJECT);
 });
 categorys.appendChild(buttonAll);
 
@@ -47,9 +45,12 @@ reponse_Button.forEach(category => {
             btn.classList.remove('selected');
         });
         button.classList.add('selected');
+
         const filteredWorks = reponse_PROJECT.filter(project => project.categoryId === category.id);
         display(filteredWorks);
     });
     categorys.appendChild(button);
 });
 
+
+// next step : intégrer le formulaire à la page de connexion. (2.1)
