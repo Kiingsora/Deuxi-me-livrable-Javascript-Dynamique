@@ -1,43 +1,11 @@
-import { elements, reponseJSON } from "./projects.js";
+const API_PROJECT = await fetch("http://localhost:5678/api/works");
+const reponse_PROJECT = await API_PROJECT.json();
 
-const API_BASE_URL = await fetch('http://localhost:5678/api/categories');
-const reponseButton = await API_BASE_URL.json();
+const API_CATEGORY = await fetch('http://localhost:5678/api/categories');
+const reponseButton = await API_CATEGORY.json();
 
-reponseJSON.forEach(projet => {
-    const category = projet.category
-    console.log(category.id);
-});
-
+const projects = document.querySelector(".gallery");
 const categorys = document.getElementById("category");
-let selectedButton = document.querySelector(".selected");
+const gallery = document.querySelectorAll(".gallery figure");
 
-const buttonAllElements = document.createElement("button");
-buttonAllElements.innerText = "Tous";
-buttonAllElements.classList.add("btn-category", "selected");
 
-categorys.appendChild(buttonAllElements);
-
-// si clic btn tous remove .selected de tout les autresde
-buttonAllElements.addEventListener("click", () => {
-    document.querySelectorAll('.btn-category').forEach(btn => {
-        btn.classList.remove('selected');
-    });
-
-    buttonAllElements.classList.add('selected');
-});
-
-reponseButton.forEach(objet => {
-    const category = document.createElement("button");
-    category.innerText = objet.name;
-    category.classList.add("btn-category");
-
-    category.addEventListener("click", () => {
-        document.querySelectorAll('.btn-category').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-
-        category.classList.add('selected');
-    });
-
-    categorys.appendChild(category);
-});
