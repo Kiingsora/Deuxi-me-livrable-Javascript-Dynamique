@@ -26,14 +26,18 @@ function display(displayWorks) {
 display(reponse_PROJECT);
 
 const buttonAll = document.createElement("button");
+
 buttonAll.textContent = "Tous";
 buttonAll.classList.add("btn-category", "selected");
 buttonAll.addEventListener("click", () => {
     document.querySelectorAll('.btn-category').forEach(btn => {
         btn.classList.remove('selected');
+        display(reponse_PROJECT)
     });
+    
     buttonAll.classList.add('selected');
 });
+
 categorys.appendChild(buttonAll);
 
 reponse_Button.forEach(category => {
@@ -51,6 +55,5 @@ reponse_Button.forEach(category => {
     });
     categorys.appendChild(button);
 });
-
 
 // next step : intégrer le formulaire à la page de connexion. (2.1)
