@@ -175,6 +175,11 @@ nav li {
   font-size: 1.2em;
 }
 
+nav a {
+  color: inherit;
+  text-decoration: none;
+}
+
 li:hover {
   color: #b1663c;
 }
