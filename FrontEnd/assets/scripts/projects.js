@@ -55,5 +55,3 @@ reponse_Button.forEach(category => {
     });
     categorys.appendChild(button);
 });
-
-// next step : intégrer le formulaire à la page de connexion. (2.1)
