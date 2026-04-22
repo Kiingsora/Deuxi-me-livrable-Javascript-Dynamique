@@ -16,12 +16,29 @@ async function login(user) {
         body: chargeUtile
     });
     
-    // ok = objet de réponse qui permet de savoir si le lien est bien en statut reussi (200 -> 299)
     if (!API_LOGIN.ok) {
-        throw new Error("erreur côté serveur" + API_LOGIN.status);
+        throw new Error("Erreur dans l'identifiant ou le mot de passe");
     }
     
     const reponse_LOGIN = await API_LOGIN.json();   
     return reponse_LOGIN;
 }
 
+loginForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    errorMessage.innerText = "";
+    
+    const user = {
+        email: emailInput.value,
+        password: passwordInput.value
+    };
+    
+    try {
+        const responseId_Token = await login(user);
+        
+        localStorage.setItem("token", responseId_Token.token);
+        window.location.href = "../index.html";
+    } catch (error) {
+        errorMessage.innerText = "Erreur dans l'identifiant ou le mot de passe";
+    }
+});
