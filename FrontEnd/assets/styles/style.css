@@ -257,16 +257,8 @@ li:hover {
   cursor: pointer;
 }
 
-.modifier-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.modifier-icon-svg {
-  width: 14px;
-  height: 14px;
-  fill: #000;
+.btn-modifier i {
+  font-size: 14px;
 }
 
 #category {
@@ -401,13 +393,12 @@ footer nav ul {
 
 .modal-close {
   right: 26px;
-  font-size: 28px;
-  font-weight: 400;
+  font-size: 18px;
 }
 
 .modal-back {
   left: 26px;
-  font-size: 22px;
+  font-size: 18px;
 }
 
 .modal-view h3 {
@@ -456,10 +447,8 @@ footer nav ul {
   cursor: pointer;
 }
 
-.modal-delete-icon {
-  width: 11px;
-  height: 11px;
-  fill: currentColor;
+.modal-delete i {
+  font-size: 10px;
 }
 
 .modal-separator {
@@ -506,35 +495,8 @@ footer nav ul {
 }
 
 .upload-illustration {
-  width: 58px;
-  height: 46px;
-  border-radius: 8px;
-  border: 3px solid #b9c5cf;
-  position: relative;
-}
-
-.upload-illustration::before {
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background-color: #b9c5cf;
-  top: 7px;
-  right: 8px;
-}
-
-.upload-illustration::after {
-  content: "";
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  bottom: 8px;
-  height: 14px;
-  background: linear-gradient(135deg, #b9c5cf 50%, transparent 50%), linear-gradient(225deg, #b9c5cf 50%, transparent 50%);
-  background-size: 50% 100%;
-  background-repeat: no-repeat;
-  background-position: left, right;
+  color: #b9c5cf;
+  font-size: 58px;
 }
 
 .upload-button {

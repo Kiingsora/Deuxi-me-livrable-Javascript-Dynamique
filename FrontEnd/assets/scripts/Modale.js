@@ -43,7 +43,10 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         const buttonModifier = document.createElement("button");
         buttonModifier.type = "button";
         buttonModifier.className = "btn-modifier";
-        buttonModifier.innerHTML = ` [i] <span>modifier</span>`;
+        buttonModifier.innerHTML = `
+            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+            <span>modifier</span>
+        `;
 
         buttonModifier.addEventListener("click", openModal);
 
@@ -59,13 +62,13 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
 
         // Remplit la liste des categories et initialise la validation du bouton.
-        populateCategorySelect()
+        populateCategorySelect() 
         setupAddFormValidation();
 
         modaleWindow.querySelector(".modal-overlay").addEventListener("click", closeModal);
         modaleWindow.querySelector(".modal-close").addEventListener("click", closeModal);
-        modaleWindow.querySelector(".modal-add-photo").addEventListener("click", openAddView);
-        modaleWindow.querySelector(".modal-back").addEventListener("click", openGalleryView);
+        modaleWindow.querySelector(".modal-add-photo").addEventListener("click", toggleModalView);
+        modaleWindow.querySelector(".modal-back").addEventListener("click", toggleModalView);
 
         return modaleWindow;
     }
@@ -82,20 +85,88 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
     }
 
+    // Affiche les miniatures des travaux dans la vue galerie de la modale.
+    function renderModalGallery() {
+        const galleryModal = modaleWindow.querySelector(".modal-gallery");
+
+        // Nettoie la galerie avant de la reconstruire.
+        galleryModal.innerHTML = "";
+
+        reponse_PROJECT.forEach(work => {
+            // Cree un item de galerie.
+            const figure = document.createElement("figure");
+            figure.classList.add("modal-project");
+
+            // Image du projet.
+            const img = document.createElement("img");
+            img.src = work.imageUrl;
+            img.alt = work.title;
+
+            // Bouton supprimer (icone poubelle).
+            const buttonDelete = document.createElement("button");
+            buttonDelete.type = "button";
+            buttonDelete.classList.add("modal-delete");
+            buttonDelete.setAttribute("aria-label", "Supprimer le media");
+            buttonDelete.innerHTML = `<i class="fa-solid fa-trash-can" aria-hidden="true"></i>`;
+
+            // Assemble la vignette et l'ajoute a la grille.
+            figure.appendChild(img);
+            figure.appendChild(buttonDelete);
+            galleryModal.appendChild(figure);
+        });
+    }
+
+    // Gere l'etat actif/inactif du bouton Valider dans la vue d'ajout.
+    function setupAddFormValidation() {
+        const inputImage = modaleWindow.querySelector("#image-upload");
+        const inputTitle = modaleWindow.querySelector("#title-upload");
+        const inputCategory = modaleWindow.querySelector("#category-upload");
+
+        inputImage.addEventListener("change", refreshValidateButton);
+        inputTitle.addEventListener("input", refreshValidateButton);
+        inputCategory.addEventListener("change", refreshValidateButton);
+
+        refreshValidateButton();
+    }
+
+    function refreshValidateButton() {
+        const inputImage = modaleWindow.querySelector("#image-upload");
+        const inputTitle = modaleWindow.querySelector("#title-upload");
+        const inputCategory = modaleWindow.querySelector("#category-upload");
+        const buttonValidate = modaleWindow.querySelector(".modal-validate");
+
+        if (inputImage.files.length === 0) {
+            buttonValidate.classList.remove("modal-validate-active");
+            return;
+        }
+
+        if (inputTitle.value.trim() === "") {
+            buttonValidate.classList.remove("modal-validate-active");
+            return;
+        }
+
+        if (inputCategory.value === "") {
+            buttonValidate.classList.remove("modal-validate-active");
+            return;
+        }
+
+        buttonValidate.classList.add("modal-validate-active");
+    }
+
     // Ouvre la modale sur la vue galerie.
     function openModal() {
         // Cree la modale au premier clic, sinon reutilise l'existante.
-        if (!createModal()) return;
+        createModal()
 
         // Affiche les projets dans la galerie de modale.
         renderModalGallery();
 
         // Garantit l'ouverture sur la premiere vue.
-        openGalleryView();
+        modaleWindow.querySelector(".modal-add-view").classList.add("modal-hidden");
+        modaleWindow.querySelector(".modal-gallery-view").classList.remove("modal-hidden");
 
         // Rend la modale visible et bloque le scroll de fond.
         modaleWindow.classList.add("modal-open");
-        modaleWindow.setAttribute("aria-hidden", "false");
         document.body.classList.add("modal-active");
     }
 
@@ -108,9 +179,14 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
 
         // Cache la modale et retablit le scroll de page.
         modaleWindow.classList.remove("modal-open");
-        modaleWindow.setAttribute("aria-hidden", "true");
         document.body.classList.remove("modal-active");
     }
 
+    // Alterne entre la vue galerie et la vue ajout photo.
+    function toggleModalView() {
+        modaleWindow.querySelector(".modal-gallery-view").classList.toggle("modal-hidden");
+        modaleWindow.querySelector(".modal-add-view").classList.toggle("modal-hidden");
 
+        refreshValidateButton();
+    }
 }
