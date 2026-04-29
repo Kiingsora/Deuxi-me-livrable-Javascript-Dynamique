@@ -356,14 +356,14 @@ footer nav ul {
   margin: 2em;
 }
 
-.modal-edition {
+.section-edition {
   position: fixed;
   inset: 0;
   display: none;
   z-index: 40;
 }
 
-.modal-edition.modal-open {
+.section-edition.modal-open {
   display: block;
 }
 

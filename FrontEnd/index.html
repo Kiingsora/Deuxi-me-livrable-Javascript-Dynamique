@@ -53,25 +53,23 @@
 			<input type="submit" value="Envoyer">
 		</form>
 	</section>
-</main>
-
-<template id="modal-template">
-	<aside class="modal-edition" aria-hidden="true">
+	
+	<section class="section-edition" aria-hidden="true">
 		<div class="modal-overlay"></div>
 		<div class="modal-content">
 			<button class="modal-close">&times;</button>
-
-			<section class="modal-view modal-gallery-view">
+			
+			<div class="modal-view modal-gallery-view">
 				<h3>Galerie photo</h3>
 				<div class="modal-gallery"></div>
 				<div class="modal-separator"></div>
 				<button class="modal-add-photo">Ajouter une photo</button>
-			</section>
-
-			<section class="modal-view modal-add-view modal-hidden">
+			</div>
+			
+			<div class="modal-view modal-add-view modal-hidden">
 				<button class="modal-back">&larr;</button>
 				<h3>Ajout photo</h3>
-
+				
 				<form class="modal-form-add">
 					<label class="modal-upload-zone" for="image-upload">
 						<span class="upload-illustration"></span>
@@ -79,22 +77,22 @@
 						<span class="upload-hint">jpg, png : 4mo max</span>
 					</label>
 					<input id="image-upload" name="image" type="file" accept=".jpg,.jpeg,.png">
-
+					
 					<label for="title-upload">Titre</label>
 					<input id="title-upload" name="title" required>
-
+					
 					<label for="category-upload">Categorie</label>
 					<select id="category-upload" name="category" required>
 						<option value="" selected></option>
 					</select>
-
+					
 					<div class="modal-separator"></div>
 					<button type="submit" class="modal-validate">Valider</button>
 				</form>
-			</section>
+			</div>
 		</div>
-	</aside>
-</template>
+	</section>
+</main>
 
 <footer>
 	<nav>
