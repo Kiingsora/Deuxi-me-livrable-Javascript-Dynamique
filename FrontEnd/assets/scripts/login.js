@@ -8,12 +8,12 @@ errorMessage.classList.add("error-login");
 loginForm.appendChild(errorMessage);
 
 async function login(user) {
-    const chargeUtile = JSON.stringify(user);
+    const user_mail = JSON.stringify(user);
     
     const API_LOGIN = await fetch("http://localhost:5678/api/users/login", {
         method: "POST",
         headers: { "Content-Type": "application/json"},
-        body: chargeUtile
+        body: user_mail
     });
     
     if (!API_LOGIN.ok) {
@@ -34,9 +34,9 @@ loginForm.addEventListener("submit", async (event) => {
     };
     
     try {
-        const responseId_Token = await login(user);
+        const response_Token = await login(user);
         
-        localStorage.setItem("token", responseId_Token.token);
+        localStorage.setItem("token", response_Token.token);
         window.location.href = "../index.html";
     } catch (error) {
         errorMessage.innerText = "Erreur dans l'identifiant ou le mot de passe";
