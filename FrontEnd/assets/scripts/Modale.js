@@ -8,7 +8,7 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
 
     // Configure l'interface admin.
     updateLoginLink();
-    injectModifierButton();
+    addButtonModify();
 
     // cache tt les éléments boutons de tri + ajout mot logout
     function updateLoginLink() {
@@ -27,8 +27,8 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         };
     }
 
-    // Ajoute le bouton "modifier" a cote de "Mes Projets".
-    function injectModifierButton() {
+    // Ajout du bouton "modifier" a côté de "Mes projects".
+    function addButtonModify() {
 
         const portfolioSection = document.getElementById("portfolio");
         const portfolioHeader = document.createElement("div");
@@ -61,7 +61,7 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
 
         // Remplit la liste des categories et initialise la validation du bouton.
-        populateCategorySelect()
+        optionList()
         setupAddFormValidation();
 
         modaleWindow.querySelector(".modal-overlay").addEventListener("click", closeModal);
@@ -72,8 +72,8 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         return modaleWindow;
     }
 
-    // ajoute les categories avec les donnees API (nom des boutons) pour l'ajout des projets.
-    function populateCategorySelect() {
+    // ajoute les categories avec les donnees API (nom des boutons) pour l'ajout des projects.
+    function optionList() {
         const select = modaleWindow.querySelector("#category-upload");
 
         reponse_Button.forEach(category => {
@@ -85,32 +85,29 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
     }
 
     // Affiche les miniatures des travaux dans la vue galerie de la modale.
-    function renderModalGallery() {
+    function modalGallery() {
         const galleryModal = modaleWindow.querySelector(".modal-gallery");
         // Nettoie la galerie avant de la reconstruire.
         galleryModal.innerHTML = "";
-        
+
         reponse_PROJECT.forEach(work => {
             // Cree un item de galerie.
             const figure = document.createElement("figure");
             figure.classList.add("modal-project");
-            
-            // Image du projet
+
+            // Image du project
             const img = document.createElement("img");
             img.src = work.imageUrl;
             img.alt = work.title;
-            
+
             // Bouton supprimer (icone poubelle).
             const buttonDelete = document.createElement("button");
             buttonDelete.type = "button";
             buttonDelete.classList.add("modal-delete");
             buttonDelete.setAttribute("aria-label", "Supprimer le media");
             buttonDelete.innerHTML = `<i class="fa-solid fa-trash-can" aria-hidden="true"></i>`;
-            
-            console.log(work.ok);
 
             buttonDelete.addEventListener('click', event => {
-                if(!reponse_Button.ok)
                 event.preventDefault;
                 deleteProject(work.id, token, figure)
             })
@@ -122,35 +119,7 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
     }
 
-    // suppression de projet
-    async function deleteProject(id, token, projet) {
-        console.log(id);
-
-        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
-            method: "DELETE",
-            headers: {
-                Authorization: `Bearer ${token}`,
-                "Content-Type": "application/json"
-            },
-        })
-        projet.remove();
-        console.log(response.status);
-    }
-
-    // Gestion etat bouton Valider (couleur/status) lorsqu'input rempli.
-    function setupAddFormValidation() {
-        const inputImage = modaleWindow.querySelector("#image-upload");
-        const inputTitle = modaleWindow.querySelector("#title-upload");
-        const inputCategory = modaleWindow.querySelector("#category-upload");
-
-        inputImage.addEventListener("change", refreshValidateButton);
-        inputTitle.addEventListener("input", refreshValidateButton);
-        inputCategory.addEventListener("change", refreshValidateButton);
-
-        refreshValidateButton();
-    }
-
-    function refreshValidateButton() {
+    function colorateButton() {
         const inputImage = modaleWindow.querySelector("#image-upload");
         const inputTitle = modaleWindow.querySelector("#title-upload");
         const inputCategory = modaleWindow.querySelector("#category-upload");
@@ -174,13 +143,26 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         buttonValidate.classList.add("modal-validate-active");
     }
 
+    // Gestion etat bouton Valider (couleur/status) lorsqu'input rempli.
+    function setupAddFormValidation() {
+        const inputImage = modaleWindow.querySelector("#image-upload");
+        const inputTitle = modaleWindow.querySelector("#title-upload");
+        const inputCategory = modaleWindow.querySelector("#category-upload");
+
+        inputImage.addEventListener("change", colorateButton);
+        inputTitle.addEventListener("input", colorateButton);
+        inputCategory.addEventListener("change", colorateButton);
+
+        colorateButton();
+    }
+
     // Ouvre la modale sur la vue galerie.
     function openModal() {
         // Cree la modale au premier clic, sinon reutilise l'existante.
         createModal()
 
-        // Affiche les projets dans la galerie de modale.
-        renderModalGallery();
+        // Affiche les projects dans la galerie de modale.
+        modalGallery();
 
         // Garantit l'ouverture sur la premiere vue.
         modaleWindow.querySelector(".modal-add-view").classList.add("modal-hidden");
@@ -208,7 +190,31 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         modaleWindow.querySelector(".modal-gallery-view").classList.toggle("modal-hidden");
         modaleWindow.querySelector(".modal-add-view").classList.toggle("modal-hidden");
 
-        refreshValidateButton();
+        colorateButton();
     }
-    console.log(token);
+
+    // suppression de project
+    async function deleteProject(id, token, project) {
+
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+        })
+
+        if (response.ok) {
+            project.remove();
+        }
+    }
+    async function addNewProject(project) {
+        const response = await fetch(`http://localhost:5678/api/works/`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+        })
+    }
 }
