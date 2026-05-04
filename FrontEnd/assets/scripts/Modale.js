@@ -1,7 +1,7 @@
 ﻿let modaleWindow = document.querySelector(".section-edition");
 
 export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button) {
-   
+
     if (!token) {
         return;
     }
@@ -15,13 +15,13 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
 
         const loginLink = document.querySelector("nav ul li a");
         if (!loginLink) return;
-        
+
         categorys.style.display = "none";
 
         loginLink.textContent = "logout";
         loginLink.onclick = event => {
             event.preventDefault();
-            
+
             localStorage.removeItem("token");
             window.location.reload();
         };
@@ -29,13 +29,13 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
 
     // Ajoute le bouton "modifier" a cote de "Mes Projets".
     function injectModifierButton() {
-        
+
         const portfolioSection = document.getElementById("portfolio");
         const portfolioHeader = document.createElement("div");
         portfolioHeader.className = "portfolio-header";
 
         const titrePortfolio = portfolioSection.querySelector("h2");
-        
+
         // prepend pour ajouter un noeud avant le firstchild
         portfolioSection.prepend(portfolioHeader, titrePortfolio);
         portfolioHeader.appendChild(titrePortfolio);
@@ -49,7 +49,6 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         `;
 
         buttonModifier.addEventListener("click", openModal);
-
         portfolioHeader.appendChild(buttonModifier);
     }
 
@@ -62,7 +61,7 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
 
         // Remplit la liste des categories et initialise la validation du bouton.
-        populateCategorySelect() 
+        populateCategorySelect()
         setupAddFormValidation();
 
         modaleWindow.querySelector(".modal-overlay").addEventListener("click", closeModal);
@@ -88,26 +87,33 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
     // Affiche les miniatures des travaux dans la vue galerie de la modale.
     function renderModalGallery() {
         const galleryModal = modaleWindow.querySelector(".modal-gallery");
-
         // Nettoie la galerie avant de la reconstruire.
         galleryModal.innerHTML = "";
-
+        
         reponse_PROJECT.forEach(work => {
             // Cree un item de galerie.
             const figure = document.createElement("figure");
             figure.classList.add("modal-project");
-
-            // Image du projet.
+            
+            // Image du projet
             const img = document.createElement("img");
             img.src = work.imageUrl;
             img.alt = work.title;
-
+            
             // Bouton supprimer (icone poubelle).
             const buttonDelete = document.createElement("button");
             buttonDelete.type = "button";
             buttonDelete.classList.add("modal-delete");
             buttonDelete.setAttribute("aria-label", "Supprimer le media");
             buttonDelete.innerHTML = `<i class="fa-solid fa-trash-can" aria-hidden="true"></i>`;
+            
+            console.log(work.ok);
+
+            buttonDelete.addEventListener('click', event => {
+                if(!reponse_Button.ok)
+                event.preventDefault;
+                deleteProject(work.id, token, figure)
+            })
 
             // Assemble la vignette et l'ajoute a la grille.
             figure.appendChild(img);
@@ -116,7 +122,22 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
         });
     }
 
-    // Gere l'etat actif/inactif du bouton Valider dans la vue d'ajout.
+    // suppression de projet
+    async function deleteProject(id, token, projet) {
+        console.log(id);
+
+        const response = await fetch(`http://localhost:5678/api/works/${id}`, {
+            method: "DELETE",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+        })
+        projet.remove();
+        console.log(response.status);
+    }
+
+    // Gestion etat bouton Valider (couleur/status) lorsqu'input rempli.
     function setupAddFormValidation() {
         const inputImage = modaleWindow.querySelector("#image-upload");
         const inputTitle = modaleWindow.querySelector("#title-upload");
@@ -189,4 +210,5 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
 
         refreshValidateButton();
     }
+    console.log(token);
 }
