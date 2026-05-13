@@ -494,6 +494,32 @@ footer nav ul {
   cursor: pointer;
 }
 
+.modal-form-add .modal-upload-zone {
+  display: flex;
+  margin: 0 0 22px;
+}
+
+.upload-preview {
+  display: none;
+  width: 100%;
+  height: 169px;
+  object-fit: cover;
+}
+
+.modal-upload-zone.image-selected {
+  padding: 0;
+}
+
+.modal-upload-zone.image-selected .upload-preview {
+  display: block;
+}
+
+.modal-upload-zone.image-selected .upload-illustration,
+.modal-upload-zone.image-selected .upload-button,
+.modal-upload-zone.image-selected .upload-hint {
+  display: none;
+}
+
 .upload-illustration {
   color: #b9c5cf;
   font-size: 58px;
@@ -531,6 +557,7 @@ footer nav ul {
 .modal-form-add select {
   width: 100%;
   height: 51px;
+  box-sizing: border-box;
   border: none;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.09);
   padding: 0 16px;

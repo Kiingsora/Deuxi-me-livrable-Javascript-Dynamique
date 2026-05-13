@@ -9,19 +9,24 @@ loginForm.appendChild(errorMessage);
 
 async function login(user) {
     const user_mail = JSON.stringify(user);
-    
-    const API_LOGIN = await fetch("http://localhost:5678/api/users/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json"},
-        body: user_mail
-    });
-    
-    if (!API_LOGIN.ok) {
-        throw new Error("Erreur dans l'identifiant ou le mot de passe");
+
+    try {
+        const API_LOGIN = await fetch("http://localhost:5678/api/users/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json"},
+            body: user_mail
+        });
+
+        if (!API_LOGIN.ok) {
+            throw new Error("Erreur dans l'identifiant ou le mot de passe");
+        }
+
+        const reponse_LOGIN = await API_LOGIN.json();
+        return reponse_LOGIN;
+    } catch (error) {
+        console.error("Erreur lors de la connexion :", error);
+        throw error;
     }
-    
-    const reponse_LOGIN = await API_LOGIN.json();   
-    return reponse_LOGIN;
 }
 
 loginForm.addEventListener("submit", async (event) => {

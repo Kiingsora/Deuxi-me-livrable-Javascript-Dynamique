@@ -1,13 +1,25 @@
 ﻿import { enableEditMode } from "./Modale.js";
 
-const API_PROJECT = await fetch("http://localhost:5678/api/works");
-const API_CATEGORY = await fetch("http://localhost:5678/api/categories");
-const reponse_PROJECT = await API_PROJECT.json();
-const reponse_Button = await API_CATEGORY.json();
-
 const projects = document.querySelector(".gallery");
 const categorys = document.getElementById("category");
 const token = localStorage.getItem("token");
+
+let reponse_PROJECT = [];
+let reponse_Button = [];
+
+try {
+    const API_PROJECT = await fetch("http://localhost:5678/api/works");
+    const API_CATEGORY = await fetch("http://localhost:5678/api/categories");
+
+    if (!API_PROJECT.ok || !API_CATEGORY.ok) {
+        throw new Error("Erreur lors du chargement des donnees");
+    }
+
+    reponse_PROJECT = await API_PROJECT.json();
+    reponse_Button = await API_CATEGORY.json();
+} catch (error) {
+    console.error("Erreur lors de la recuperation des donnees :", error);
+}
 
 function display(displayWorks) {
     projects.innerHTML = "";
