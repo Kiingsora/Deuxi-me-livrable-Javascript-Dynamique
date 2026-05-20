@@ -276,88 +276,9 @@ export function enableEditMode(token, categorys, reponse_PROJECT, reponse_Button
             const newProject = await response.json();
             reponse_PROJECT.push(newProject);
             modalGallery();
+            toggleModalView()
         } catch (error) {
             console.error("Erreur lors de l'ajout du projet :", error);
         }
     }
 }
-
-
-// // Hocine Boukhatem13:07
-//  const formData = new FormData();
-//  formData.append('image', imageFile);
-//  formData.append('title', title );
-//  formData.append('category', parseInt(categoryId));
-//  // afficher le contenue du formdata
-
-//  fetch("http://localhost:5678/api/works", {
-//    method: "POST",
-//    headers: {
-//      "Authorization": `Bearer ${token}`
-//    },
-//    body: formData
-//  })
-// Hocine Boukhatem13:10
-// addImageForm.addEventListener('submit', function(event) {
-//  event.preventDefault();
-//  const imageFile = document.getElementById('image-url').files[0];
-//  const title = document.getElementById('image-title').value;
-//  const categoryId = document.getElementById('image-category').value;
-
-//  // Envoie des données à l'API pour ajouter l'image
-
-//  const formData = new FormData();
-//  formData.append('image', imageFile);
-//  formData.append('title', title );
-//  formData.append('category', parseInt(categoryId));
-//  // afficher le contenue du formdata
-
-//  fetch("http://localhost:5678/api/works", {
-//    method: "POST",
-//    headers: {
-//      "Authorization": `Bearer ${token}`
-//    },
-//    body: formData
-//  })
-
-//  .then(response => {
-//    if (!response.ok) {
-//      throw new Error("Failed to add image");
-//    }
-//    return response.ajson();
-//    })
-//    .then(work => {
-//      newWork = {
-//        "id": work.id,
-//        "title": work.title,
-//        "imageUrl": work.imageUrl,
-//        "categoryId": Number(work.categoryId),
-//        "userId": work.userId
-//      }
-
-//      works.push(newWork);
-//      displayWorks(works); // Met à jour la galerie principale
-//      displayModalImages(works); // Met à jour la galerie modale
-//      //ferme de la modale //
-//      modalexit()
-//    })
-//    .catch(error => {
-//    console.error("Error adding image:", error);
-//    });
-//  });
-
-//  // Ferme la modale quand on clique sur la croix
-//  document.querySelector('.modal .close').addEventListener('click', function() {
-//    modalexit()
- 
-// });
-
-// // Ferme la modale si on clique en dehors du contenu
-// window.addEventListener('click', function(event) {
-//  const modal = document.getElementById('modal-edit');
-//  if (event.target === modal) {
-//    modalexit()
-//  }
-// });
-
-// };
